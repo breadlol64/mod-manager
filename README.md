@@ -1,4 +1,4 @@
-# mod-downloader
+# mod-manager
 
 ### Download Minecraft mod easier
 
