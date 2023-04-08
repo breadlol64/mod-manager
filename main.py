@@ -12,15 +12,24 @@ def modrinth(mod):
 
     if response.status_code == 200:
         mod_list = response.json()["hits"]
+        count_mod = 0
         for mod in mod_list:
-            print(f"Mod name: '{mod['title']}' | Mod ID: '{mod['project_id']}'")
-        mod_id = input("Enter mod id: ")
+            print(f"{count_mod}. Mod name: '{mod['title']}' | Mod ID: '{mod['project_id']}'")
+            count_mod += 1
+        mod_index = int(input("Choose mod: "))
 
-        mod_files_resp = r.get(f"https://api.modrinth.com/v2/project/{mod_id}/version")
-        print(f'Downloading \'{mod_files_resp.json()[0]["files"][0]["filename"]}\'')
-        mod_file = mod_files_resp.json()[0]["files"][0]["url"]
+        mod_files_resp = r.get(f"https://api.modrinth.com/v2/project/{mod_list[mod_index]['project_id']}/version")
+        mod_files = mod_files_resp.json()
+        count = 0
+        for mod_file in mod_files:
+            print(f'{count}. {mod_file["version_number"]}')
+            count += 1
+        mod_file_index = int(input("Choose version(0 for lastest): "))
+        mod_filename = mod_files[mod_file_index]["files"][0]["filename"]
+        print(f"Downloading '{mod_filename}'")
+        mod_file = mod_files_resp.json()[mod_file_index]["files"][0]["url"]
 
-        with open(mod_files_resp.json()[0]["files"][0]["filename"], "wb") as f:
+        with open(mod_filename, "wb") as f:
             f.write(r.get(mod_file).content)
     else:
         print(response.status_code)
