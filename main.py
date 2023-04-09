@@ -2,7 +2,18 @@ import requests as r
 
 
 def curseforge(mod):
-    pass
+    headers = {
+        'Accept': 'application/json',
+        'x-api-key': '1df6b2fd-b78a-43dc-91c0-1b2a1c4d6541'
+    }
+
+    response_cf = r.get('https://api.curseforge.com/v1/mods/search', params={
+        'gameId': '432',
+        #'searchFilter': 'create'
+    }, headers=headers)
+
+    print(response_cf.status_code)
+    print(response_cf.content)
 
 
 def modrinth(mod, version):
@@ -40,8 +51,11 @@ def modrinth(mod, version):
 
 
 if __name__ == "__main__":
-    mod_version = input("Enter version: ")
-    while True:
-        mod_name = input("\nEnter mod name: ")
-
-        modrinth(mod_name, mod_version)
+    mod_source = input("Choose mod source:\n1.Modrinth\n")
+    if mod_source == '1':
+        mod_version = input("Enter version: ")
+        while True:
+            mod_name = input("\nEnter mod name: ")
+            modrinth(mod_name, mod_version)
+    elif mod_source == '2':
+        print("In development!")
