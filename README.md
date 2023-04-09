@@ -1,6 +1,6 @@
 # mod-manager
 
-### Download Minecraft mod easier
+### Download Minecraft mods easier
 
 ---
 
