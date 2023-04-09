@@ -39,10 +39,16 @@ def modrinth(mod, version):
                     print(f'{count}. {mod_file["version_number"]} | {mod_file["game_versions"]} | {mod_file["loaders"]}')
                     file_indexes.append(count)
                 count += 1
-            mod_file_index = int(input(f"Choose version ({file_indexes[0]} for lastest): "))
-            mod_filename = mod_files[mod_file_index]["files"][0]["filename"]
-            print(f"Downloading '{mod_filename}'")
-            mod_file = mod_files_resp.json()[mod_file_index]["files"][0]["url"]
+            mod_file_index = input("Choose version (left blank for lastest): ")
+            if mod_file_index == '':
+                mod_filename = mod_files[file_indexes[0]]["files"][0]["filename"]
+                print(f"Downloading '{mod_filename}'")
+                mod_file = mod_files_resp.json()[file_indexes[0]]["files"][0]["url"]
+            else:
+                mod_file_index = int(mod_file_index)
+                mod_filename = mod_files[mod_file_index]["files"][0]["filename"]
+                print(f"Downloading '{mod_filename}'")
+                mod_file = mod_files_resp.json()[mod_file_index]["files"][0]["url"]
 
             with open(mod_filename, "wb") as f:
                 f.write(r.get(mod_file).content)
